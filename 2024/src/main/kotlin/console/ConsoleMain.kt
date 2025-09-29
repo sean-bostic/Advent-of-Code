@@ -1,3 +1,9 @@
+package console
+
+import days.Day
+import days.Day01
+import days.Day02
+
 fun main() {
     println("🎄 Advent of Code 2024 🎄")
 
@@ -27,7 +33,7 @@ fun runDay(dayNumber: Int) {
         return
     }
 
-    println("=== Day $dayNumber ===")
+    println("=== days.Day $dayNumber ===")
 
     try {
         val input = day.loadInput()
@@ -47,6 +53,7 @@ fun runDay(dayNumber: Int) {
 fun createDay(dayNumber: Int): Day? {
     return when (dayNumber) {
         1 -> Day01()
+        2 -> Day02()
         else -> null
     }
 }
