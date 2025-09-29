@@ -16,6 +16,6 @@ class Day01Test {
         val testInput = day.loadTestInput()
         val result = day.part2(testInput)
         println(result)
-        assertEquals(31, result, "Part 1 should return 31 for test input")
+        assertEquals(31, result, "Part 2 should return 31 for test input")
     }
 }
