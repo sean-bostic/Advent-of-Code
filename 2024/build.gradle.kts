@@ -17,7 +17,7 @@ dependencies {
     // Compose Desktop
     implementation(compose.desktop.currentOs)
     implementation(compose.material3)
-
+    implementation(compose.materialIconsExtended)
     testImplementation(kotlin("test"))
 }
 
@@ -26,5 +26,11 @@ tasks.test {
 }
 kotlin {
     jvmToolchain(21)
+}
+
+compose.desktop {
+    application {
+        mainClass = "desktop.DesktopMainKt"
+    }
 }
 
