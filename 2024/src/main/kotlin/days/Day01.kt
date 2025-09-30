@@ -1,3 +1,5 @@
+package days
+
 import kotlin.math.abs
 
 class Day01 : Day(1) {
