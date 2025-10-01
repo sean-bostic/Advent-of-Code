@@ -9,9 +9,11 @@ object DayRegistry {
 
     fun getDay(dayNumber: Int): Day? = days[dayNumber]
 
-    fun getImplementedDays(): List<Int> = days.keys.sorted()
+//    fun getImplementedDays(): List<Int> = days.keys.sorted()
 
     fun isDayImplemented(dayNumber: Int): Boolean = dayNumber in days
 
     fun getAllDayNumbers(): List<Int> = (1..25).toList()
+
+    fun getCompletedStars(): Int = days.size
 }

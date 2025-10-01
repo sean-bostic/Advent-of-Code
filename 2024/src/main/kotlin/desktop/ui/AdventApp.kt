@@ -35,24 +35,39 @@ fun AdventApp() {
 
 @Composable
 fun WelcomeScreen() {
+    val completedStars = days.DayRegistry.getCompletedStars()
+
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = androidx.compose.ui.Alignment.Center
     ) {
         Column(
             horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            verticalArrangement = Arrangement.spacedBy(24.dp)
         ) {
             Text(
                 text = "🎄",
                 style = MaterialTheme.typography.displayLarge
             )
+
             Text(
                 text = "Advent of Code 2024",
                 style = MaterialTheme.typography.headlineLarge
             )
+
+            StarProgress(
+                completed = completedStars,
+                modifier = Modifier.padding(vertical = 16.dp)
+            )
+
             Text(
-                text = "Select a day from the sidebar",
+                text = "$completedStars / 25 days completed",
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.primary
+            )
+
+            Text(
+                text = "Select a day from the sidebar to begin",
                 style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
