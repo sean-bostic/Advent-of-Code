@@ -8,6 +8,7 @@ object DayRegistry {
         4 to Day04(),
         5 to Day05(),
         6 to Day06(),
+        7 to Day07(),
     )
 
     fun getDay(dayNumber: Int): Day? = days[dayNumber]
