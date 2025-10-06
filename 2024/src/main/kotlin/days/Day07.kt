@@ -13,7 +13,14 @@ class Day07 : Day(7) {
     }
 
     override fun part2(input: List<String>): Any {
-        return 0
+        return input.sumOf { line ->
+            val (testValue, numbers) = parseLine(line)
+            if (canProduceValue(testValue, numbers, listOf('+', '*', '|'))) {
+                testValue
+            } else {
+                0L
+            }
+        }
     }
 
     private fun parseLine(line: String): Pair<Long, List<Long>> {
@@ -57,6 +64,7 @@ class Day07 : Day(7) {
             val result = when (op) {
                 '+' -> current + nextNumber
                 '*' -> current * nextNumber
+                '|' -> concatenate(current, nextNumber)
                 else -> current
             }
 
@@ -66,5 +74,9 @@ class Day07 : Day(7) {
         }
 
         return false
+    }
+
+    private fun concatenate(left: Long, right: Long): Long {
+        return (left.toString() + right.toString()).toLong()
     }
 }
