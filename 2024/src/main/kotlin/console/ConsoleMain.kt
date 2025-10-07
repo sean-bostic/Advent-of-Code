@@ -3,6 +3,12 @@ package console
 import days.Day
 import days.Day01
 import days.Day02
+import days.Day03
+import days.Day04
+import days.Day05
+import days.Day06
+import days.Day07
+import days.Day08
 
 fun main() {
     println("🎄 Advent of Code 2024 🎄")
@@ -54,6 +60,12 @@ fun createDay(dayNumber: Int): Day? {
     return when (dayNumber) {
         1 -> Day01()
         2 -> Day02()
+        3 -> Day03()
+        4 -> Day04()
+        5 -> Day05()
+        6 -> Day06()
+        7 -> Day07()
+        8 -> Day08()
         else -> null
     }
 }
