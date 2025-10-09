@@ -1,5 +1,6 @@
-package days
+package aoc_2024.days
 
+import core.Day
 import kotlin.math.abs
 
 class Day01 : Day(1) {

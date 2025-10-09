@@ -1,5 +1,4 @@
-// src/main/kotlin/desktop/ui/CodeViewer.kt
-package desktop.ui
+package ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
@@ -23,10 +22,11 @@ import java.io.File
 
 @Composable
 fun CodeViewerDialog(
+    year: Int,
     dayNumber: Int,
     onDismiss: () -> Unit
 ) {
-    val code = remember(dayNumber) { loadDayCode(dayNumber) }
+    val code = remember(year, dayNumber) { loadDayCode(year, dayNumber) }
     var showCopiedMessage by remember { mutableStateOf(false) }
 
     Dialog(onDismissRequest = onDismiss) {
@@ -47,10 +47,26 @@ fun CodeViewerDialog(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text(
-                        text = "Day$dayNumber.kt",
-                        style = MaterialTheme.typography.titleLarge
-                    )
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = "Day$dayNumber.kt",
+                            style = MaterialTheme.typography.titleLarge
+                        )
+                        Surface(
+                            shape = MaterialTheme.shapes.small,
+                            color = MaterialTheme.colorScheme.primaryContainer
+                        ) {
+                            Text(
+                                text = "$year",
+                                style = MaterialTheme.typography.labelMedium,
+                                modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
+                                color = MaterialTheme.colorScheme.onPrimaryContainer
+                            )
+                        }
+                    }
 
                     Row(
                         horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -113,10 +129,21 @@ fun CodeViewerDialog(
                             modifier = Modifier.fillMaxSize(),
                             contentAlignment = Alignment.Center
                         ) {
-                            Text(
-                                text = "Could not load code file",
-                                color = MaterialTheme.colorScheme.error
-                            )
+                            Column(
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                verticalArrangement = Arrangement.spacedBy(8.dp)
+                            ) {
+                                Text(
+                                    text = "Could not load code file",
+                                    color = MaterialTheme.colorScheme.error,
+                                    style = MaterialTheme.typography.bodyLarge
+                                )
+                                Text(
+                                    text = "Expected: src/main/kotlin/aoc_$year/days/Day${dayNumber.toString().padStart(2, '0')}.kt",
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                            }
                         }
                     }
                 }
@@ -125,9 +152,9 @@ fun CodeViewerDialog(
     }
 }
 
-private fun loadDayCode(dayNumber: Int): String? {
+private fun loadDayCode(year: Int, dayNumber: Int): String? {
     val paddedDay = dayNumber.toString().padStart(2, '0')
-    val file = File("src/main/kotlin/days/Day$paddedDay.kt")
+    val file = File("src/main/kotlin/aoc_$year/days/Day$paddedDay.kt")
 
     return if (file.exists()) {
         file.readText()

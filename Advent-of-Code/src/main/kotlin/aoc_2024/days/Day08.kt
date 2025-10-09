@@ -1,4 +1,7 @@
-package days
+package aoc_2024.days
+
+import core.Day
+import kotlin.math.abs
 
 class Day08 : Day(8) {
     override fun part1(input: List<String>): Any {
@@ -79,7 +82,7 @@ class Day08 : Day(8) {
         val dx = b.x - a.x
         val dy = b.y - a.y
 
-        val gcd = gcd(kotlin.math.abs(dx), kotlin.math.abs(dy))
+        val gcd = gcd(abs(dx), abs(dy))
         val stepX = dx / gcd
         val stepY = dy / gcd
 

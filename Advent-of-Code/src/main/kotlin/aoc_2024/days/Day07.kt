@@ -1,4 +1,6 @@
-package days
+package aoc_2024.days
+
+import core.Day
 
 class Day07 : Day(7) {
     override fun part1(input: List<String>): Any {

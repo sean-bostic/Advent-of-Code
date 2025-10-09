@@ -30,7 +30,7 @@ kotlin {
 
 compose.desktop {
     application {
-        mainClass = "desktop.DesktopMainKt"
+        mainClass = "ui.DesktopMainKt"
     }
 }
 

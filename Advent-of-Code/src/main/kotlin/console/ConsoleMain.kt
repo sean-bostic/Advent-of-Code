@@ -1,71 +1,113 @@
 package console
 
-import days.Day
-import days.Day01
-import days.Day02
-import days.Day03
-import days.Day04
-import days.Day05
-import days.Day06
-import days.Day07
-import days.Day08
+import core.YearRegistry
+import aoc_2024.Year2024
 
 fun main() {
-    println("🎄 Advent of Code 2024 🎄")
+    YearRegistry.register(2024, Year2024.getAllDays())
+
+    println("🎄 Advent of Code 🎄")
+    println()
+
+    val years = YearRegistry.getAllYears()
+    println("Available years: ${years.map { it.year }.joinToString(", ")}")
+    println()
 
     while (true) {
-        print("Enter day number (1-25) or 'Q' to quit: ")
-        val input = readLine()?.trim()
+        print("Enter year (or 'Q' to quit): ")
+        val yearInput = readLine()?.trim()
 
         when {
-            input == "q" || input == "quit" -> {
+            yearInput == "q" || yearInput == "Q" -> {
                 println("Happy holidays! 🎅")
                 break
             }
-            input?.toIntOrNull() in 1..25 -> {
-                val day = input!!.toInt()
-                runDay(day)
+            yearInput?.toIntOrNull() != null -> {
+                val year = yearInput.toInt()
+                val yearInfo = YearRegistry.getYearData(year)
+
+                if (yearInfo == null) {
+                    println("Year $year not found. Available years: ${years.map { it.year }.joinToString(", ")}")
+                    println()
+                    continue
+                }
+
+                runYear(year, yearInfo.days.map { it.dayNumber })
             }
-            else -> println("Please enter a valid day number (1-25) or 'Q' to quit")
+            else -> println("Please enter a valid year or 'Q' to quit")
         }
         println()
     }
 }
 
-fun runDay(dayNumber: Int) {
-    val day = createDay(dayNumber)
+fun runYear(year: Int, availableDays: List<Int>) {
+    println("\n=== Year $year ===")
+    println("Available days: ${availableDays.joinToString(", ")}")
+
+    while (true) {
+        print("\nEnter day number (1-25), 'ALL' to run all days, or 'B' to go back: ")
+        val input = readLine()?.trim()
+
+        when {
+            input == "b" || input == "B" -> {
+                break
+            }
+            input == "all" || input == "ALL" -> {
+                availableDays.forEach { day ->
+                    runDay(year, day)
+                    println()
+                }
+            }
+            input?.toIntOrNull() in 1..25 -> {
+                val day = input!!.toInt()
+                if (day in availableDays) {
+                    runDay(year, day)
+                } else {
+                    println("Day $day not implemented yet for year $year!")
+                }
+            }
+            else -> println("Please enter a valid day number (1-25), 'ALL', or 'B' to go back")
+        }
+    }
+}
+
+fun runDay(year: Int, dayNumber: Int) {
+    val day = YearRegistry.getDay(year, dayNumber)
+
     if (day == null) {
-        println("Day $dayNumber not implemented yet!")
+        println("Day $dayNumber not found for year $year!")
         return
     }
 
-    println("=== days.Day $dayNumber ===")
+    println("\n=== Year $year - Day $dayNumber ===")
 
     try {
-        val input = day.loadInput()
+        val input = day.loadInput(year)
 
-        println("Running Part 1...")
+        if (input.isEmpty()) {
+            println("⚠️ No input file found!")
+            println("Expected: resources/aoc_$year/day${dayNumber.toString().padStart(2, '0')}.txt")
+            return
+        }
+
+        print("Running Part 1... ")
+        val part1Start = System.currentTimeMillis()
         val part1Result = day.part1(input)
-        println("Part 1 Result: $part1Result")
+        val part1Time = System.currentTimeMillis() - part1Start
+        println("✓")
+        println("Part 1: $part1Result (${part1Time}ms)")
 
-        println("Running Part 2...")
+        print("Running Part 2... ")
+        val part2Start = System.currentTimeMillis()
         val part2Result = day.part2(input)
-        println("Part 2 Result: $part2Result")
+        val part2Time = System.currentTimeMillis() - part2Start
+        println("✓")
+        println("Part 2: $part2Result (${part2Time}ms)")
+
+        println("Total time: ${part1Time + part2Time}ms")
 
     } catch (e: Exception) {
-        println("Error running day $dayNumber: ${e.message}")
-    }
-}
-fun createDay(dayNumber: Int): Day? {
-    return when (dayNumber) {
-        1 -> Day01()
-        2 -> Day02()
-        3 -> Day03()
-        4 -> Day04()
-        5 -> Day05()
-        6 -> Day06()
-        7 -> Day07()
-        8 -> Day08()
-        else -> null
+        println("\n❌ Error running day $dayNumber: ${e.message}")
+        e.printStackTrace()
     }
 }

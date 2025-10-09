@@ -1,5 +1,4 @@
-// Update src/main/kotlin/desktop/ui/DayDetail.kt
-package desktop.ui
+package ui
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -7,8 +6,9 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import days.DayRegistry
+import core.YearRegistry
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.awt.Toolkit
@@ -16,21 +16,21 @@ import java.awt.datatransfer.StringSelection
 import kotlin.system.measureTimeMillis
 
 @Composable
-fun DayDetail(dayNumber: Int) {
-    val day = remember(dayNumber) { DayRegistry.getDay(dayNumber) }
+fun DayDetail(year: Int, dayNumber: Int) {
+    val day = remember(year, dayNumber) { YearRegistry.getDay(year, dayNumber) }
 
     if (day == null) {
-        NotImplementedScreen(dayNumber)
+        NotImplementedScreen(year, dayNumber)
         return
     }
 
-    var part1Result by remember(dayNumber) { mutableStateOf<String?>(null) }
-    var part2Result by remember(dayNumber) { mutableStateOf<String?>(null) }
-    var part1Time by remember(dayNumber) { mutableStateOf<Long?>(null) }
-    var part2Time by remember(dayNumber) { mutableStateOf<Long?>(null) }
-    var isRunning by remember(dayNumber) { mutableStateOf(false) }
-    var error by remember(dayNumber) { mutableStateOf<String?>(null) }
-    var showCodeViewer by remember(dayNumber) { mutableStateOf(false) }
+    var part1Result by remember(year, dayNumber) { mutableStateOf<String?>(null) }
+    var part2Result by remember(year, dayNumber) { mutableStateOf<String?>(null) }
+    var part1Time by remember(year, dayNumber) { mutableStateOf<Long?>(null) }
+    var part2Time by remember(year, dayNumber) { mutableStateOf<Long?>(null) }
+    var isRunning by remember(year, dayNumber) { mutableStateOf(false) }
+    var error by remember(year, dayNumber) { mutableStateOf<String?>(null) }
+    var showCodeViewer by remember(year, dayNumber) { mutableStateOf(false) }
 
     val scope = rememberCoroutineScope()
 
@@ -40,13 +40,27 @@ fun DayDetail(dayNumber: Int) {
             .padding(24.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        // Header
-        Text(
-            text = "Day $dayNumber",
-            style = MaterialTheme.typography.headlineLarge
-        )
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "Day $dayNumber",
+                style = MaterialTheme.typography.headlineLarge
+            )
+            Surface(
+                shape = MaterialTheme.shapes.small,
+                color = MaterialTheme.colorScheme.primaryContainer
+            ) {
+                Text(
+                    text = "$year",
+                    style = MaterialTheme.typography.labelLarge,
+                    modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
+                    color = MaterialTheme.colorScheme.onPrimaryContainer
+                )
+            }
+        }
 
-        // Action buttons
         Row(
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
@@ -62,7 +76,7 @@ fun DayDetail(dayNumber: Int) {
 
                         try {
                             val input = withContext(Dispatchers.IO) {
-                                day.loadInput()
+                                day.loadInput(year)
                             }
 
                             val time1 = measureTimeMillis {
@@ -131,6 +145,7 @@ fun DayDetail(dayNumber: Int) {
 
     if (showCodeViewer) {
         CodeViewerDialog(
+            year = year,
             dayNumber = dayNumber,
             onDismiss = { showCodeViewer = false }
         )
@@ -199,7 +214,7 @@ fun ResultCard(
                     )
 
                     LaunchedEffect(Unit) {
-                        kotlinx.coroutines.delay(2000)
+                        delay(2000)
                         showCopiedMessage = false
                     }
                 }
@@ -222,19 +237,30 @@ private fun copyToClipboard(text: String) {
 }
 
 @Composable
-fun NotImplementedScreen(dayNumber: Int) {
+fun NotImplementedScreen(year: Int, dayNumber: Int) {
     Box(
         modifier = Modifier.fillMaxSize(),
-        contentAlignment = androidx.compose.ui.Alignment.Center
+        contentAlignment = Alignment.Center
     ) {
         Column(
-            horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally,
+            horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Text(
                 text = "Day $dayNumber",
                 style = MaterialTheme.typography.headlineLarge
             )
+            Surface(
+                shape = MaterialTheme.shapes.small,
+                color = MaterialTheme.colorScheme.surfaceVariant
+            ) {
+                Text(
+                    text = "$year",
+                    style = MaterialTheme.typography.labelMedium,
+                    modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+                )
+            }
+            Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = "Not implemented yet",
                 style = MaterialTheme.typography.bodyLarge,
