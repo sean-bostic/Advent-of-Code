@@ -5,9 +5,7 @@ on: [push, pull_request]
 jobs:
   test:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        year: [2024]
+    
     
     steps:
     - uses: actions/checkout@v4
@@ -19,9 +17,7 @@ jobs:
         distribution: 'temurin'
     
     - name: Make gradlew executable
-      working-directory: ./${{ matrix.year }}
       run: chmod +x gradlew
     
     - name: Run tests for ${{ matrix.year }}
-      working-directory: ./${{ matrix.year }}
       run: ./gradlew test
