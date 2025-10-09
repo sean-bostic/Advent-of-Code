@@ -14,7 +14,9 @@ jobs:
           distribution: 'temurin'
       
       - name: Make gradlew executable
+        working-directory: ./Advent-of-Code
         run: chmod +x gradlew
       
       - name: Run tests
+        working-directory: ./Advent-of-Code
         run: ./gradlew test
