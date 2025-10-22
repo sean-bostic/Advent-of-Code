@@ -1,12 +1,12 @@
 package ui
 
-import core.YearRegistry
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import core.YearRegistry
 
 @Composable
 fun AdventApp() {
@@ -14,11 +14,11 @@ fun AdventApp() {
     var selectedDay by remember { mutableStateOf<Int?>(null) }
 
     MaterialTheme(
-        colorScheme = darkColorScheme()
+        colorScheme = darkColorScheme(),
     ) {
         Surface(
             modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colorScheme.background
+            color = MaterialTheme.colorScheme.background,
         ) {
             Row(modifier = Modifier.fillMaxSize()) {
                 DaysList(
@@ -27,7 +27,7 @@ fun AdventApp() {
                     onDaySelected = { year, day ->
                         selectedYear = year
                         selectedDay = day
-                    }
+                    },
                 )
 
                 if (selectedYear != null && selectedDay != null) {
@@ -46,43 +46,43 @@ fun WelcomeScreen() {
 
     Box(
         modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(24.dp)
+            verticalArrangement = Arrangement.spacedBy(24.dp),
         ) {
             Text(
                 text = "🎄",
-                style = MaterialTheme.typography.displayLarge
+                style = MaterialTheme.typography.displayLarge,
             )
 
             Text(
                 text = "Advent of Code",
-                style = MaterialTheme.typography.headlineLarge
+                style = MaterialTheme.typography.headlineLarge,
             )
 
             // Show progress for each year
             years.forEach { yearInfo ->
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
                     Text(
                         text = "${yearInfo.year}",
                         style = MaterialTheme.typography.titleLarge,
-                        color = MaterialTheme.colorScheme.primary
+                        color = MaterialTheme.colorScheme.primary,
                     )
 
                     StarProgress(
                         completed = yearInfo.days.size,
-                        modifier = Modifier.padding(vertical = 8.dp)
+                        modifier = Modifier.padding(vertical = 8.dp),
                     )
 
                     Text(
                         text = "${yearInfo.days.size} / 25 days completed",
                         style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
                 }
             }
@@ -92,7 +92,7 @@ fun WelcomeScreen() {
             Text(
                 text = "Select a day from the sidebar to begin",
                 style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
         }
     }

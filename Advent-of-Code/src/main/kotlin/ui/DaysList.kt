@@ -16,7 +16,7 @@ import core.YearRegistry
 fun DaysList(
     selectedYear: Int?,
     selectedDay: Int?,
-    onDaySelected: (year: Int, day: Int) -> Unit
+    onDaySelected: (year: Int, day: Int) -> Unit,
 ) {
     var expandedYears by remember { mutableStateOf(setOf<Int>()) }
 
@@ -28,26 +28,27 @@ fun DaysList(
     }
 
     Surface(
-        modifier = Modifier
-            .width(280.dp)
-            .fillMaxHeight(),
-        tonalElevation = 2.dp
+        modifier =
+            Modifier
+                .width(280.dp)
+                .fillMaxHeight(),
+        tonalElevation = 2.dp,
     ) {
         Column {
             Surface(
-                tonalElevation = 4.dp
+                tonalElevation = 4.dp,
             ) {
                 Text(
                     text = "Advent of Code",
                     style = MaterialTheme.typography.titleLarge,
-                    modifier = Modifier.padding(16.dp)
+                    modifier = Modifier.padding(16.dp),
                 )
             }
 
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
                 contentPadding = PaddingValues(8.dp),
-                verticalArrangement = Arrangement.spacedBy(4.dp)
+                verticalArrangement = Arrangement.spacedBy(4.dp),
             ) {
                 YearRegistry.getAllYears().forEach { yearInfo ->
                     item(key = "year_${yearInfo.year}") {
@@ -56,24 +57,25 @@ fun DaysList(
                             dayCount = yearInfo.days.size,
                             isExpanded = yearInfo.year in expandedYears,
                             onToggle = {
-                                expandedYears = if (yearInfo.year in expandedYears) {
-                                    expandedYears - yearInfo.year
-                                } else {
-                                    expandedYears + yearInfo.year
-                                }
-                            }
+                                expandedYears =
+                                    if (yearInfo.year in expandedYears) {
+                                        expandedYears - yearInfo.year
+                                    } else {
+                                        expandedYears + yearInfo.year
+                                    }
+                            },
                         )
                     }
 
                     if (yearInfo.year in expandedYears) {
                         items(
                             items = yearInfo.days,
-                            key = { day -> "day_${yearInfo.year}_${day.dayNumber}" }
+                            key = { day -> "day_${yearInfo.year}_${day.dayNumber}" },
                         ) { day ->
                             DayListItem(
                                 dayNumber = day.dayNumber,
                                 isSelected = yearInfo.year == selectedYear && day.dayNumber == selectedDay,
-                                onClick = { onDaySelected(yearInfo.year, day.dayNumber) }
+                                onClick = { onDaySelected(yearInfo.year, day.dayNumber) },
                             )
                         }
                     }
@@ -88,45 +90,52 @@ fun YearHeader(
     year: Int,
     dayCount: Int,
     isExpanded: Boolean,
-    onToggle: () -> Unit
+    onToggle: () -> Unit,
 ) {
     FilledTonalButton(
         onClick = onToggle,
         modifier = Modifier.fillMaxWidth(),
-        colors = ButtonDefaults.filledTonalButtonColors(
-            containerColor = if (isExpanded)
-                MaterialTheme.colorScheme.primaryContainer
-            else
-                MaterialTheme.colorScheme.surfaceVariant
-        )
+        colors =
+            ButtonDefaults.filledTonalButtonColors(
+                containerColor =
+                    if (isExpanded) {
+                        MaterialTheme.colorScheme.primaryContainer
+                    } else {
+                        MaterialTheme.colorScheme.surfaceVariant
+                    },
+            ),
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
+            horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             Row(
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 Icon(
-                    imageVector = if (isExpanded) Icons.Default.KeyboardArrowDown
-                    else Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                    imageVector =
+                        if (isExpanded) {
+                            Icons.Default.KeyboardArrowDown
+                        } else {
+                            Icons.AutoMirrored.Filled.KeyboardArrowRight
+                        },
                     contentDescription = if (isExpanded) "Collapse" else "Expand",
-                    tint = MaterialTheme.colorScheme.primary
+                    tint = MaterialTheme.colorScheme.primary,
                 )
                 Text(
                     text = "$year",
-                    style = MaterialTheme.typography.titleMedium
+                    style = MaterialTheme.typography.titleMedium,
                 )
             }
             Surface(
                 shape = MaterialTheme.shapes.extraSmall,
-                color = MaterialTheme.colorScheme.secondaryContainer
+                color = MaterialTheme.colorScheme.secondaryContainer,
             ) {
                 Text(
                     text = "$dayCount",
                     modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp),
                     style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onSecondaryContainer
+                    color = MaterialTheme.colorScheme.onSecondaryContainer,
                 )
             }
         }
@@ -137,23 +146,27 @@ fun YearHeader(
 fun DayListItem(
     dayNumber: Int,
     isSelected: Boolean,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     FilledTonalButton(
         onClick = onClick,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(start = 24.dp),
-        colors = ButtonDefaults.filledTonalButtonColors(
-            containerColor = if (isSelected)
-                MaterialTheme.colorScheme.secondaryContainer
-            else
-                MaterialTheme.colorScheme.surface
-        )
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(start = 24.dp),
+        colors =
+            ButtonDefaults.filledTonalButtonColors(
+                containerColor =
+                    if (isSelected) {
+                        MaterialTheme.colorScheme.secondaryContainer
+                    } else {
+                        MaterialTheme.colorScheme.surface
+                    },
+            ),
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
+            horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             Text("Day $dayNumber")
             Text("✓", color = MaterialTheme.colorScheme.primary)

@@ -4,7 +4,6 @@ import core.Day
 import kotlin.math.abs
 
 class Day01 : Day(1) {
-
     override fun part1(input: List<String>): Int {
         // Create two seperate standalone lists that can be sorted to make easy comparison of numbers
         val leftList = mutableListOf<Int>()

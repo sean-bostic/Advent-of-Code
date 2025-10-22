@@ -17,11 +17,12 @@ class Day19 : Day(19) {
 //        println("Patterns: $patterns")
 //        println("Designs count: ${designs.size}")
 
-        val results = designs.map { design ->
-            val count = countWaysToFormDesign(design, patterns)
-            println("Design '$design': $count ways")
-            count
-        }
+        val results =
+            designs.map { design ->
+                val count = countWaysToFormDesign(design, patterns)
+                println("Design '$design': $count ways")
+                count
+            }
 
         return results.sum()
     }
@@ -33,7 +34,10 @@ class Day19 : Day(19) {
         return patterns to designs
     }
 
-    private fun canFormDesign(design: String, patterns: List<String>): Boolean {
+    private fun canFormDesign(
+        design: String,
+        patterns: List<String>,
+    ): Boolean {
         val memo = mutableMapOf<String, Boolean>()
 
         fun canForm(remaining: String): Boolean {
@@ -58,7 +62,10 @@ class Day19 : Day(19) {
         return canForm(design)
     }
 
-    private fun countWaysToFormDesign(design: String, patterns: List<String>): Long {
+    private fun countWaysToFormDesign(
+        design: String,
+        patterns: List<String>,
+    ): Long {
         val memo = mutableMapOf<String, Long>()
 
         fun countWays(remaining: String): Long {

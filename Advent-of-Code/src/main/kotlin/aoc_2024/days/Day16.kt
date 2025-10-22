@@ -1,7 +1,6 @@
 package aoc_2024.days
 
 import core.Day
-
 import java.util.PriorityQueue
 
 class Day16 : Day(16) {
@@ -21,27 +20,30 @@ class Day16 : Day(16) {
         NORTH(0, -1),
         EAST(1, 0),
         SOUTH(0, 1),
-        WEST(-1, 0);
+        WEST(-1, 0),
+        ;
 
-        fun turnClockwise() = when (this) {
-            NORTH -> EAST
-            EAST -> SOUTH
-            SOUTH -> WEST
-            WEST -> NORTH
-        }
+        fun turnClockwise() =
+            when (this) {
+                NORTH -> EAST
+                EAST -> SOUTH
+                SOUTH -> WEST
+                WEST -> NORTH
+            }
 
-        fun turnCounterClockwise() = when (this) {
-            NORTH -> WEST
-            WEST -> SOUTH
-            SOUTH -> EAST
-            EAST -> NORTH
-        }
+        fun turnCounterClockwise() =
+            when (this) {
+                NORTH -> WEST
+                WEST -> SOUTH
+                SOUTH -> EAST
+                EAST -> NORTH
+            }
     }
 
     private data class State(
         val position: Position,
         val direction: Direction,
-        val score: Int
+        val score: Int,
     ) : Comparable<State> {
         override fun compareTo(other: State) = score.compareTo(other.score)
     }
@@ -49,7 +51,7 @@ class Day16 : Day(16) {
     private data class Maze(
         val start: Position,
         val end: Position,
-        val walls: Set<Position>
+        val walls: Set<Position>,
     )
 
     private fun parseMaze(input: List<String>): Maze {
@@ -88,26 +90,31 @@ class Day16 : Day(16) {
             if (stateKey in visited) continue
             visited.add(stateKey)
 
-            val nextPos = Position(
-                current.position.x + current.direction.dx,
-                current.position.y + current.direction.dy
-            )
+            val nextPos =
+                Position(
+                    current.position.x + current.direction.dx,
+                    current.position.y + current.direction.dy,
+                )
 
             if (nextPos !in maze.walls) {
                 pq.add(State(nextPos, current.direction, current.score + 1))
             }
 
-            pq.add(State(
-                current.position,
-                current.direction.turnClockwise(),
-                current.score + 1000
-            ))
+            pq.add(
+                State(
+                    current.position,
+                    current.direction.turnClockwise(),
+                    current.score + 1000,
+                ),
+            )
 
-            pq.add(State(
-                current.position,
-                current.direction.turnCounterClockwise(),
-                current.score + 1000
-            ))
+            pq.add(
+                State(
+                    current.position,
+                    current.direction.turnCounterClockwise(),
+                    current.score + 1000,
+                ),
+            )
         }
 
         return -1
@@ -142,10 +149,11 @@ class Day16 : Day(16) {
                 continue
             }
 
-            val nextPos = Position(
-                current.position.x + current.direction.dx,
-                current.position.y + current.direction.dy
-            )
+            val nextPos =
+                Position(
+                    current.position.x + current.direction.dx,
+                    current.position.y + current.direction.dy,
+                )
 
             if (nextPos !in maze.walls) {
                 val nextKey = nextPos to current.direction

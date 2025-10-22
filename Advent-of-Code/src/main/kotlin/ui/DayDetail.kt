@@ -16,7 +16,10 @@ import java.awt.datatransfer.StringSelection
 import kotlin.system.measureTimeMillis
 
 @Composable
-fun DayDetail(year: Int, dayNumber: Int) {
+fun DayDetail(
+    year: Int,
+    dayNumber: Int,
+) {
     val day = remember(year, dayNumber) { YearRegistry.getDay(year, dayNumber) }
 
     if (day == null) {
@@ -35,34 +38,35 @@ fun DayDetail(year: Int, dayNumber: Int) {
     val scope = rememberCoroutineScope()
 
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(24.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .padding(24.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         Row(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
                 text = "Day $dayNumber",
-                style = MaterialTheme.typography.headlineLarge
+                style = MaterialTheme.typography.headlineLarge,
             )
             Surface(
                 shape = MaterialTheme.shapes.small,
-                color = MaterialTheme.colorScheme.primaryContainer
+                color = MaterialTheme.colorScheme.primaryContainer,
             ) {
                 Text(
                     text = "$year",
                     style = MaterialTheme.typography.labelLarge,
                     modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
-                    color = MaterialTheme.colorScheme.onPrimaryContainer
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
                 )
             }
         }
 
         Row(
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             Button(
                 onClick = {
@@ -75,20 +79,22 @@ fun DayDetail(year: Int, dayNumber: Int) {
                         part2Time = null
 
                         try {
-                            val input = withContext(Dispatchers.IO) {
-                                day.loadInput(year)
-                            }
+                            val input =
+                                withContext(Dispatchers.IO) {
+                                    day.loadInput(year)
+                                }
 
-                            val time1 = measureTimeMillis {
-                                part1Result = day.part1(input).toString()
-                            }
+                            val time1 =
+                                measureTimeMillis {
+                                    part1Result = day.part1(input).toString()
+                                }
                             part1Time = time1
 
-                            val time2 = measureTimeMillis {
-                                part2Result = day.part2(input).toString()
-                            }
+                            val time2 =
+                                measureTimeMillis {
+                                    part2Result = day.part2(input).toString()
+                                }
                             part2Time = time2
-
                         } catch (e: Exception) {
                             error = e.message ?: "Unknown error"
                             e.printStackTrace()
@@ -97,13 +103,13 @@ fun DayDetail(year: Int, dayNumber: Int) {
                         }
                     }
                 },
-                enabled = !isRunning
+                enabled = !isRunning,
             ) {
                 Text(if (isRunning) "Running..." else "Run Solutions")
             }
 
             OutlinedButton(
-                onClick = { showCodeViewer = true }
+                onClick = { showCodeViewer = true },
             ) {
                 Text("View Code")
             }
@@ -111,34 +117,35 @@ fun DayDetail(year: Int, dayNumber: Int) {
 
         error?.let {
             Card(
-                colors = CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.errorContainer
-                )
+                colors =
+                    CardDefaults.cardColors(
+                        containerColor = MaterialTheme.colorScheme.errorContainer,
+                    ),
             ) {
                 Text(
                     text = "Error: $it",
                     modifier = Modifier.padding(16.dp),
-                    color = MaterialTheme.colorScheme.onErrorContainer
+                    color = MaterialTheme.colorScheme.onErrorContainer,
                 )
             }
         }
 
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             ResultCard(
                 title = "Part 1",
                 result = part1Result,
                 time = part1Time,
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1f),
             )
 
             ResultCard(
                 title = "Part 2",
                 result = part2Result,
                 time = part2Time,
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1f),
             )
         }
     }
@@ -147,7 +154,7 @@ fun DayDetail(year: Int, dayNumber: Int) {
         CodeViewerDialog(
             year = year,
             dayNumber = dayNumber,
-            onDismiss = { showCodeViewer = false }
+            onDismiss = { showCodeViewer = false },
         )
     }
 }
@@ -157,41 +164,41 @@ fun ResultCard(
     title: String,
     result: String?,
     time: Long?,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     var showCopiedMessage by remember { mutableStateOf(false) }
 
     Card(
         modifier = modifier,
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
     ) {
         Column(
             modifier = Modifier.padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+            verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             Text(
                 text = title,
                 style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.primary
+                color = MaterialTheme.colorScheme.primary,
             )
 
             if (result != null) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Column(modifier = Modifier.weight(1f)) {
                         Text(
                             text = result,
-                            style = MaterialTheme.typography.headlineMedium
+                            style = MaterialTheme.typography.headlineMedium,
                         )
 
                         time?.let {
                             Text(
                                 text = "⏱️ ${it}ms",
                                 style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
                             )
                         }
                     }
@@ -200,7 +207,7 @@ fun ResultCard(
                         onClick = {
                             copyToClipboard(result)
                             showCopiedMessage = true
-                        }
+                        },
                     ) {
                         Text("📋 Copy")
                     }
@@ -210,7 +217,7 @@ fun ResultCard(
                     Text(
                         text = "✓ Copied!",
                         style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.primary
+                        color = MaterialTheme.colorScheme.primary,
                     )
 
                     LaunchedEffect(Unit) {
@@ -218,12 +225,11 @@ fun ResultCard(
                         showCopiedMessage = false
                     }
                 }
-
             } else {
                 Text(
                     text = "Not run yet",
                     style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             }
         }
@@ -237,34 +243,37 @@ private fun copyToClipboard(text: String) {
 }
 
 @Composable
-fun NotImplementedScreen(year: Int, dayNumber: Int) {
+fun NotImplementedScreen(
+    year: Int,
+    dayNumber: Int,
+) {
     Box(
         modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+            verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             Text(
                 text = "Day $dayNumber",
-                style = MaterialTheme.typography.headlineLarge
+                style = MaterialTheme.typography.headlineLarge,
             )
             Surface(
                 shape = MaterialTheme.shapes.small,
-                color = MaterialTheme.colorScheme.surfaceVariant
+                color = MaterialTheme.colorScheme.surfaceVariant,
             ) {
                 Text(
                     text = "$year",
                     style = MaterialTheme.typography.labelMedium,
-                    modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+                    modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
                 )
             }
             Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = "Not implemented yet",
                 style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
         }
     }

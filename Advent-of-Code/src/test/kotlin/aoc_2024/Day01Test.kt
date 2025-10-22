@@ -14,6 +14,7 @@ class Day01Test {
         println(result)
         assertEquals(11, result, "Part 1 should return 11 for test input")
     }
+
     @Test
     fun `Day 1 Part 2`() {
         val testInput = day.loadTestInput(2024)

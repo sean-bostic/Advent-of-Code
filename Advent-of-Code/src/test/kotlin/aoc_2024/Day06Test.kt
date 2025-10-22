@@ -19,5 +19,4 @@ class Day06Test {
         val result = day.part2(testInput)
         assert(result == 6)
     }
-
 }

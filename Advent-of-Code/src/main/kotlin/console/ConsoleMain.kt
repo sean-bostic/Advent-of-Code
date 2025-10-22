@@ -1,7 +1,7 @@
 package console
 
-import core.YearRegistry
 import aoc_2024.Year2024
+import core.YearRegistry
 
 fun main() {
     YearRegistry.register(2024, Year2024.getAllDays())
@@ -40,7 +40,10 @@ fun main() {
     }
 }
 
-fun runYear(year: Int, availableDays: List<Int>) {
+fun runYear(
+    year: Int,
+    availableDays: List<Int>,
+) {
     println("\n=== Year $year ===")
     println("Available days: ${availableDays.joinToString(", ")}")
 
@@ -71,7 +74,10 @@ fun runYear(year: Int, availableDays: List<Int>) {
     }
 }
 
-fun runDay(year: Int, dayNumber: Int) {
+fun runDay(
+    year: Int,
+    dayNumber: Int,
+) {
     val day = YearRegistry.getDay(year, dayNumber)
 
     if (day == null) {
@@ -105,7 +111,6 @@ fun runDay(year: Int, dayNumber: Int) {
         println("Part 2: $part2Result (${part2Time}ms)")
 
         println("Total time: ${part1Time + part2Time}ms")
-
     } catch (e: Exception) {
         println("\n❌ Error running day $dayNumber: ${e.message}")
         e.printStackTrace()

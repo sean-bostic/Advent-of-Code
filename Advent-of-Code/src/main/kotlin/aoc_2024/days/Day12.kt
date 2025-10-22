@@ -51,7 +51,7 @@ class Day12 : Day(12) {
         grid: List<CharArray>,
         startX: Int,
         startY: Int,
-        visited: Array<BooleanArray>
+        visited: Array<BooleanArray>,
     ): Set<Position> {
         val height = grid.size
         val width = grid[0].size
@@ -66,12 +66,13 @@ class Day12 : Day(12) {
             val current = queue.removeFirst()
             region.add(current)
 
-            val directions = listOf(
-                Position(0, -1),  // up
-                Position(0, 1),   // down
-                Position(-1, 0),  // left
-                Position(1, 0)    // right
-            )
+            val directions =
+                listOf(
+                    Position(0, -1), // up
+                    Position(0, 1), // down
+                    Position(-1, 0), // left
+                    Position(1, 0), // right
+                )
 
             for (dir in directions) {
                 val next = Position(current.x + dir.x, current.y + dir.y)
@@ -90,26 +91,30 @@ class Day12 : Day(12) {
         return region
     }
 
-    private fun calculatePerimeter(region: Set<Position>, grid: List<CharArray>): Int {
+    private fun calculatePerimeter(
+        region: Set<Position>,
+        grid: List<CharArray>,
+    ): Int {
         val height = grid.size
         val width = grid[0].size
         var perimeter = 0
 
         for (plot in region) {
-
-            val directions = listOf(
-                Position(0, -1),  // up
-                Position(0, 1),   // down
-                Position(-1, 0),  // left
-                Position(1, 0)    // right
-            )
+            val directions =
+                listOf(
+                    Position(0, -1), // up
+                    Position(0, 1), // down
+                    Position(-1, 0), // left
+                    Position(1, 0), // right
+                )
 
             for (dir in directions) {
                 val neighbor = Position(plot.x + dir.x, plot.y + dir.y)
 
                 if (neighbor.x !in 0 until width ||
                     neighbor.y !in 0 until height ||
-                    neighbor !in region) {
+                    neighbor !in region
+                ) {
                     perimeter++
                 }
             }
@@ -119,7 +124,6 @@ class Day12 : Day(12) {
     }
 
     private fun calculateSides(region: Set<Position>): Int {
-
         var corners = 0
 
         for (plot in region) {
@@ -129,7 +133,10 @@ class Day12 : Day(12) {
         return corners
     }
 
-    private fun countCorners(plot: Position, region: Set<Position>): Int {
+    private fun countCorners(
+        plot: Position,
+        region: Set<Position>,
+    ): Int {
         var corners = 0
         val (x, y) = plot
 
@@ -142,14 +149,14 @@ class Day12 : Day(12) {
         val downLeft = Position(x - 1, y + 1) in region
         val downRight = Position(x + 1, y + 1) in region
 
-        if (!up && !left) corners++      // Top-left outer
-        if (!up && !right) corners++     // Top-right outer
-        if (!down && !left) corners++    // Bottom-left outer
-        if (!down && !right) corners++   // Bottom-right outer
+        if (!up && !left) corners++ // Top-left outer
+        if (!up && !right) corners++ // Top-right outer
+        if (!down && !left) corners++ // Bottom-left outer
+        if (!down && !right) corners++ // Bottom-right outer
 
-        if (up && left && !upLeft) corners++       // Top-left inner
-        if (up && right && !upRight) corners++     // Top-right inner
-        if (down && left && !downLeft) corners++   // Bottom-left inner
+        if (up && left && !upLeft) corners++ // Top-left inner
+        if (up && right && !upRight) corners++ // Top-right inner
+        if (down && left && !downLeft) corners++ // Bottom-left inner
         if (down && right && !downRight) corners++ // Bottom-right inner
 
         return corners

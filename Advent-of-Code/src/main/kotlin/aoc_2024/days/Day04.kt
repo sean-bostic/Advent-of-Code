@@ -10,23 +10,29 @@ class Day04 : Day(4) {
         return input.countXMASPatterns()
     }
 }
+
 data class Direction(val row: Int, val col: Int)
 
 private fun List<String>.countXMAS(): Int {
     val target = "XMAS"
 
-    val directions = listOf(
-        Direction(0, 1),
-        Direction(0, -1),
-        Direction(1, 0),
-        Direction(-1, 0),
-        Direction(1, 1),
-        Direction(1, -1),
-        Direction(-1, 1),
-        Direction(-1, -1)
-    )
+    val directions =
+        listOf(
+            Direction(0, 1),
+            Direction(0, -1),
+            Direction(1, 0),
+            Direction(-1, 0),
+            Direction(1, 1),
+            Direction(1, -1),
+            Direction(-1, 1),
+            Direction(-1, -1),
+        )
 
-    fun hasWordAt(row: Int, col: Int, direction: Direction): Boolean =
+    fun hasWordAt(
+        row: Int,
+        col: Int,
+        direction: Direction,
+    ): Boolean =
         target.indices.all { i ->
             val r = row + direction.row * i
             val c = col + direction.col * i
@@ -41,7 +47,10 @@ private fun List<String>.countXMAS(): Int {
 }
 
 private fun List<String>.countXMASPatterns(): Int {
-    fun isValidXMAS(row: Int, col: Int): Boolean {
+    fun isValidXMAS(
+        row: Int,
+        col: Int,
+    ): Boolean {
         // Check bounds - need space for the X pattern
         if (row !in 1 until size - 1 || col !in 1 until this[0].length - 1) return false
 
@@ -55,10 +64,12 @@ private fun List<String>.countXMASPatterns(): Int {
         val bottomRight = this[row + 1][col + 1]
 
         // Check if both diagonals form "MAS" or "SAM"
-        val diagonal1Valid = (topLeft == 'M' && bottomRight == 'S') ||
+        val diagonal1Valid =
+            (topLeft == 'M' && bottomRight == 'S') ||
                 (topLeft == 'S' && bottomRight == 'M')
 
-        val diagonal2Valid = (topRight == 'M' && bottomLeft == 'S') ||
+        val diagonal2Valid =
+            (topRight == 'M' && bottomLeft == 'S') ||
                 (topRight == 'S' && bottomLeft == 'M')
 
         return diagonal1Valid && diagonal2Valid
@@ -68,5 +79,3 @@ private fun List<String>.countXMASPatterns(): Int {
         this[0].indices.count { col -> isValidXMAS(row, col) }
     }
 }
-
-

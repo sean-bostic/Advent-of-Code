@@ -21,7 +21,10 @@ class Day11 : Day(11) {
             .mapValues { it.value.toLong() }
     }
 
-    private fun countStonesAfterBlinks(initialStones: Map<Long, Long>, blinks: Int): Long {
+    private fun countStonesAfterBlinks(
+        initialStones: Map<Long, Long>,
+        blinks: Int,
+    ): Long {
         var stones = initialStones
 
         repeat(blinks) {

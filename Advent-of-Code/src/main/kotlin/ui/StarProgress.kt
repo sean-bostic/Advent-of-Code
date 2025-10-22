@@ -23,12 +23,12 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun StarProgress(
     completed: Int,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         listOf(1, 3, 5, 7, 9)
             .runningFold(0) { acc, stars -> acc + stars }
@@ -38,20 +38,21 @@ fun StarProgress(
                 TreeRow(
                     starsInRow = starsInRow,
                     startIndex = starIndex - starsInRow + 1,
-                    completed = completed
+                    completed = completed,
                 )
             }
 
         // Small box for my crude tree trunk
         Spacer(modifier = Modifier.height(4.dp))
         Box(
-            modifier = Modifier
-                .width(24.dp)
-                .height(50.dp)
-                .background(
-                    color = Color(0xFF8B4513),
-                    shape = MaterialTheme.shapes.small
-                )
+            modifier =
+                Modifier
+                    .width(24.dp)
+                    .height(50.dp)
+                    .background(
+                        color = Color(0xFF8B4513),
+                        shape = MaterialTheme.shapes.small,
+                    ),
         )
     }
 }
@@ -60,7 +61,7 @@ fun StarProgress(
 private fun TreeRow(
     starsInRow: Int,
     startIndex: Int,
-    completed: Int
+    completed: Int,
 ) {
     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
         repeat(starsInRow) { offset ->
@@ -75,10 +76,12 @@ private fun Star(isFilled: Boolean) {
     Icon(
         imageVector = if (isFilled) Icons.Filled.Star else Icons.Outlined.Star,
         contentDescription = if (isFilled) "Completed" else "Not completed",
-        tint = if (isFilled)
-            Color(0xFFFFD700)
-        else
-            MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.3f),
-        modifier = Modifier.size(32.dp)
+        tint =
+            if (isFilled) {
+                Color(0xFFFFD700)
+            } else {
+                MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.3f)
+            },
+        modifier = Modifier.size(32.dp),
     )
 }

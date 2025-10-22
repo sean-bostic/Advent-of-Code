@@ -20,8 +20,7 @@ class Day20 : Day(20) {
     }
 
     private data class Position(val x: Int, val y: Int) {
-        fun manhattanDistance(other: Position) =
-            kotlin.math.abs(x - other.x) + kotlin.math.abs(y - other.y)
+        fun manhattanDistance(other: Position) = kotlin.math.abs(x - other.x) + kotlin.math.abs(y - other.y)
     }
 
     private data class Track(
@@ -29,7 +28,7 @@ class Day20 : Day(20) {
         val end: Position,
         val walls: Set<Position>,
         val width: Int,
-        val height: Int
+        val height: Int,
     )
 
     private fun parseTrack(input: List<String>): Track {
@@ -58,10 +57,13 @@ class Day20 : Day(20) {
         queue.add(track.start to 0)
         distances[track.start] = 0
 
-        val directions = listOf(
-            Position(0, -1), Position(0, 1),
-            Position(-1, 0), Position(1, 0)
-        )
+        val directions =
+            listOf(
+                Position(0, -1),
+                Position(0, 1),
+                Position(-1, 0),
+                Position(1, 0),
+            )
 
         while (queue.isNotEmpty()) {
             val (current, dist) = queue.removeFirst()
@@ -87,7 +89,7 @@ class Day20 : Day(20) {
         path: Map<Position, Int>,
         track: Track,
         maxCheatTime: Int,
-        minSaving: Int
+        minSaving: Int,
     ): Int {
         var cheatCount = 0
 

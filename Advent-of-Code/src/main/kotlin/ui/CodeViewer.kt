@@ -24,65 +24,67 @@ import java.io.File
 fun CodeViewerDialog(
     year: Int,
     dayNumber: Int,
-    onDismiss: () -> Unit
+    onDismiss: () -> Unit,
 ) {
     val code = remember(year, dayNumber) { loadDayCode(year, dayNumber) }
     var showCopiedMessage by remember { mutableStateOf(false) }
 
     Dialog(onDismissRequest = onDismiss) {
         Surface(
-            modifier = Modifier
-                .fillMaxWidth(0.9f)
-                .fillMaxHeight(0.9f),
+            modifier =
+                Modifier
+                    .fillMaxWidth(0.9f)
+                    .fillMaxHeight(0.9f),
             shape = MaterialTheme.shapes.large,
-            tonalElevation = 8.dp
+            tonalElevation = 8.dp,
         ) {
             Column(
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier.fillMaxSize(),
             ) {
                 Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp),
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp),
                     horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Row(
                         horizontalArrangement = Arrangement.spacedBy(8.dp),
-                        verticalAlignment = Alignment.CenterVertically
+                        verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Text(
                             text = "Day$dayNumber.kt",
-                            style = MaterialTheme.typography.titleLarge
+                            style = MaterialTheme.typography.titleLarge,
                         )
                         Surface(
                             shape = MaterialTheme.shapes.small,
-                            color = MaterialTheme.colorScheme.primaryContainer
+                            color = MaterialTheme.colorScheme.primaryContainer,
                         ) {
                             Text(
                                 text = "$year",
                                 style = MaterialTheme.typography.labelMedium,
                                 modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
-                                color = MaterialTheme.colorScheme.onPrimaryContainer
+                                color = MaterialTheme.colorScheme.onPrimaryContainer,
                             )
                         }
                     }
 
                     Row(
                         horizontalArrangement = Arrangement.spacedBy(8.dp),
-                        verticalAlignment = Alignment.CenterVertically
+                        verticalAlignment = Alignment.CenterVertically,
                     ) {
                         if (code != null) {
                             IconButton(
                                 onClick = {
                                     copyToClipboard(code)
                                     showCopiedMessage = true
-                                }
+                                },
                             ) {
                                 Icon(
                                     imageVector = Icons.Default.ContentCopy,
                                     contentDescription = "Copy code",
-                                    tint = MaterialTheme.colorScheme.primary
+                                    tint = MaterialTheme.colorScheme.primary,
                                 )
                             }
 
@@ -90,7 +92,7 @@ fun CodeViewerDialog(
                                 Text(
                                     text = "✓ Copied!",
                                     style = MaterialTheme.typography.bodySmall,
-                                    color = MaterialTheme.colorScheme.primary
+                                    color = MaterialTheme.colorScheme.primary,
                                 )
 
                                 LaunchedEffect(Unit) {
@@ -109,39 +111,41 @@ fun CodeViewerDialog(
                 HorizontalDivider()
 
                 Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(MaterialTheme.colorScheme.surfaceVariant)
+                    modifier =
+                        Modifier
+                            .fillMaxSize()
+                            .background(MaterialTheme.colorScheme.surfaceVariant),
                 ) {
                     if (code != null) {
                         Text(
                             text = code,
                             fontFamily = FontFamily.Monospace,
                             style = MaterialTheme.typography.bodySmall,
-                            modifier = Modifier
-                                .padding(16.dp)
-                                .fillMaxSize()
-                                .verticalScroll(rememberScrollState())
-                                .horizontalScroll(rememberScrollState())
+                            modifier =
+                                Modifier
+                                    .padding(16.dp)
+                                    .fillMaxSize()
+                                    .verticalScroll(rememberScrollState())
+                                    .horizontalScroll(rememberScrollState()),
                         )
                     } else {
                         Box(
                             modifier = Modifier.fillMaxSize(),
-                            contentAlignment = Alignment.Center
+                            contentAlignment = Alignment.Center,
                         ) {
                             Column(
                                 horizontalAlignment = Alignment.CenterHorizontally,
-                                verticalArrangement = Arrangement.spacedBy(8.dp)
+                                verticalArrangement = Arrangement.spacedBy(8.dp),
                             ) {
                                 Text(
                                     text = "Could not load code file",
                                     color = MaterialTheme.colorScheme.error,
-                                    style = MaterialTheme.typography.bodyLarge
+                                    style = MaterialTheme.typography.bodyLarge,
                                 )
                                 Text(
                                     text = "Expected: src/main/kotlin/aoc_$year/days/Day${dayNumber.toString().padStart(2, '0')}.kt",
                                     style = MaterialTheme.typography.bodySmall,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                                 )
                             }
                         }
@@ -152,7 +156,10 @@ fun CodeViewerDialog(
     }
 }
 
-private fun loadDayCode(year: Int, dayNumber: Int): String? {
+private fun loadDayCode(
+    year: Int,
+    dayNumber: Int,
+): String? {
     val paddedDay = dayNumber.toString().padStart(2, '0')
     val file = File("src/main/kotlin/aoc_$year/days/Day$paddedDay.kt")
 

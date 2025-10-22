@@ -32,20 +32,23 @@ class Day06 : Day(6) {
     }
 
     private data class Position(val x: Int, val y: Int)
+
     private data class Guard(val pos: Position, val dir: Direction)
 
     private enum class Direction(val dx: Int, val dy: Int) {
         UP(0, -1),
         RIGHT(1, 0),
         DOWN(0, 1),
-        LEFT(-1, 0);
+        LEFT(-1, 0),
+        ;
 
-        fun turnRight(): Direction = when (this) {
-            UP -> RIGHT
-            RIGHT -> DOWN
-            DOWN -> LEFT
-            LEFT -> UP
-        }
+        fun turnRight(): Direction =
+            when (this) {
+                UP -> RIGHT
+                RIGHT -> DOWN
+                DOWN -> LEFT
+                LEFT -> UP
+            }
     }
 
     private fun parseMap(input: List<String>): ParseResult {
@@ -73,7 +76,7 @@ class Day06 : Day(6) {
         initialGuard: Guard,
         obstacles: Set<Position>,
         width: Int,
-        height: Int
+        height: Int,
     ): Set<Position> {
         val visited = mutableSetOf<Position>()
         var guard = initialGuard
@@ -81,16 +84,18 @@ class Day06 : Day(6) {
         while (guard.pos.x in 0 until width && guard.pos.y in 0 until height) {
             visited.add(guard.pos)
 
-            val nextPos = Position(
-                guard.pos.x + guard.dir.dx,
-                guard.pos.y + guard.dir.dy
-            )
+            val nextPos =
+                Position(
+                    guard.pos.x + guard.dir.dx,
+                    guard.pos.y + guard.dir.dy,
+                )
 
-            guard = if (nextPos in obstacles) {
-                Guard(guard.pos, guard.dir.turnRight())
-            } else {
-                Guard(nextPos, guard.dir)
-            }
+            guard =
+                if (nextPos in obstacles) {
+                    Guard(guard.pos, guard.dir.turnRight())
+                } else {
+                    Guard(nextPos, guard.dir)
+                }
         }
 
         return visited
@@ -100,7 +105,7 @@ class Day06 : Day(6) {
         initialGuard: Guard,
         obstacles: Set<Position>,
         width: Int,
-        height: Int
+        height: Int,
     ): Boolean {
         val visitedStates = mutableSetOf<Guard>()
         var guard = initialGuard
@@ -111,16 +116,18 @@ class Day06 : Day(6) {
             }
             visitedStates.add(guard)
 
-            val nextPos = Position(
-                guard.pos.x + guard.dir.dx,
-                guard.pos.y + guard.dir.dy
-            )
+            val nextPos =
+                Position(
+                    guard.pos.x + guard.dir.dx,
+                    guard.pos.y + guard.dir.dy,
+                )
 
-            guard = if (nextPos in obstacles) {
-                Guard(guard.pos, guard.dir.turnRight())
-            } else {
-                Guard(nextPos, guard.dir)
-            }
+            guard =
+                if (nextPos in obstacles) {
+                    Guard(guard.pos, guard.dir.turnRight())
+                } else {
+                    Guard(nextPos, guard.dir)
+                }
         }
 
         return false
@@ -130,6 +137,6 @@ class Day06 : Day(6) {
         val guard: Guard,
         val obstacles: Set<Position>,
         val width: Int,
-        val height: Int
+        val height: Int,
     )
 }

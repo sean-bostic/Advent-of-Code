@@ -43,7 +43,10 @@ class Day10 : Day(10) {
         return trailheads
     }
 
-    private fun calculateTrailheadScore(map: List<List<Int>>, start: Position): Int {
+    private fun calculateTrailheadScore(
+        map: List<List<Int>>,
+        start: Position,
+    ): Int {
         val height = map.size
         val width = map[0].size
         val reachableNines = mutableSetOf<Position>()
@@ -63,12 +66,13 @@ class Day10 : Day(10) {
                 continue
             }
 
-            val directions = listOf(
-                Position(0, -1),  // up
-                Position(0, 1),   // down
-                Position(-1, 0),  // left
-                Position(1, 0)    // right
-            )
+            val directions =
+                listOf(
+                    Position(0, -1), // up
+                    Position(0, 1), // down
+                    Position(-1, 0), // left
+                    Position(1, 0), // right
+                )
 
             for (dir in directions) {
                 val next = Position(current.x + dir.x, current.y + dir.y)
@@ -91,11 +95,18 @@ class Day10 : Day(10) {
         return reachableNines.size
     }
 
-    private fun calculateTrailheadRating(map: List<List<Int>>, start: Position): Int {
+    private fun calculateTrailheadRating(
+        map: List<List<Int>>,
+        start: Position,
+    ): Int {
         return countPaths(map, start, map[start.y][start.x])
     }
 
-    private fun countPaths(map: List<List<Int>>, current: Position, currentHeight: Int): Int {
+    private fun countPaths(
+        map: List<List<Int>>,
+        current: Position,
+        currentHeight: Int,
+    ): Int {
         val height = map.size
         val width = map[0].size
 
@@ -105,12 +116,13 @@ class Day10 : Day(10) {
 
         var totalPaths = 0
 
-        val directions = listOf(
-            Position(0, -1),
-            Position(0, 1),
-            Position(-1, 0),
-            Position(1, 0)
-        )
+        val directions =
+            listOf(
+                Position(0, -1),
+                Position(0, 1),
+                Position(-1, 0),
+                Position(1, 0),
+            )
 
         for (dir in directions) {
             val next = Position(current.x + dir.x, current.y + dir.y)

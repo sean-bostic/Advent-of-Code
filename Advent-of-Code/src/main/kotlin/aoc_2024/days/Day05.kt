@@ -22,20 +22,25 @@ class Day05 : Day(5) {
     private fun parseInput(input: List<String>): Pair<Set<Pair<Int, Int>>, List<List<Int>>> {
         val splitIndex = input.indexOf("")
 
-        val rules = input.subList(0, splitIndex)
-            .map { line ->
-                val (x, y) = line.split("|").map { it.toInt() }
-                x to y
-            }
-            .toSet()
+        val rules =
+            input.subList(0, splitIndex)
+                .map { line ->
+                    val (x, y) = line.split("|").map { it.toInt() }
+                    x to y
+                }
+                .toSet()
 
-        val updates = input.subList(splitIndex + 1, input.size)
-            .map { line -> line.split(",").map { it.toInt() } }
+        val updates =
+            input.subList(splitIndex + 1, input.size)
+                .map { line -> line.split(",").map { it.toInt() } }
 
         return rules to updates
     }
 
-    private fun isValidUpdate(update: List<Int>, rules: Set<Pair<Int, Int>>): Boolean {
+    private fun isValidUpdate(
+        update: List<Int>,
+        rules: Set<Pair<Int, Int>>,
+    ): Boolean {
         for (i in update.indices) {
             for (j in i + 1 until update.size) {
                 if (update[j] to update[i] in rules) {
@@ -45,7 +50,11 @@ class Day05 : Day(5) {
         }
         return true
     }
-    private fun fixUpdate(update: List<Int>, rules: Set<Pair<Int, Int>>): List<Int> {
+
+    private fun fixUpdate(
+        update: List<Int>,
+        rules: Set<Pair<Int, Int>>,
+    ): List<Int> {
         return update.sortedWith { a, b ->
             when {
                 a to b in rules -> -1

@@ -35,7 +35,7 @@ class Day07 : Day(7) {
     private fun canProduceValue(
         target: Long,
         numbers: List<Long>,
-        operators: List<Char>
+        operators: List<Char>,
     ): Boolean {
         if (numbers.size == 1) {
             return numbers[0] == target
@@ -51,7 +51,7 @@ class Day07 : Day(7) {
         operators: List<Char>,
         operatorSlots: Int,
         position: Int,
-        current: Long
+        current: Long,
     ): Boolean {
         if (position == operatorSlots) {
             return current == target
@@ -63,12 +63,13 @@ class Day07 : Day(7) {
 
         for (op in operators) {
             val nextNumber = numbers[position + 1]
-            val result = when (op) {
-                '+' -> current + nextNumber
-                '*' -> current * nextNumber
-                '|' -> concatenate(current, nextNumber)
-                else -> current
-            }
+            val result =
+                when (op) {
+                    '+' -> current + nextNumber
+                    '*' -> current * nextNumber
+                    '|' -> concatenate(current, nextNumber)
+                    else -> current
+                }
 
             if (tryAllCombinations(target, numbers, operators, operatorSlots, position + 1, result)) {
                 return true
@@ -78,7 +79,10 @@ class Day07 : Day(7) {
         return false
     }
 
-    private fun concatenate(left: Long, right: Long): Long {
+    private fun concatenate(
+        left: Long,
+        right: Long,
+    ): Long {
         return (left.toString() + right.toString()).toLong()
     }
 }

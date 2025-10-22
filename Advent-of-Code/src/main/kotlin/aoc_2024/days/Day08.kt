@@ -56,7 +56,10 @@ class Day08 : Day(8) {
     }
 
     private data class Position(val x: Int, val y: Int) {
-        fun isInBounds(width: Int, height: Int): Boolean {
+        fun isInBounds(
+            width: Int,
+            height: Int,
+        ): Boolean {
             return x in 0 until width && y in 0 until height
         }
     }
@@ -76,7 +79,12 @@ class Day08 : Day(8) {
         return antennas
     }
 
-    private fun findLinePoints(a: Position, b: Position, width: Int, height: Int): Set<Position> {
+    private fun findLinePoints(
+        a: Position,
+        b: Position,
+        width: Int,
+        height: Int,
+    ): Set<Position> {
         val points = mutableSetOf<Position>()
 
         val dx = b.x - a.x
@@ -101,7 +109,10 @@ class Day08 : Day(8) {
         return points
     }
 
-    private fun gcd(a: Int, b: Int): Int {
+    private fun gcd(
+        a: Int,
+        b: Int,
+    ): Int {
         return if (b == 0) a else gcd(b, a % b)
     }
 }

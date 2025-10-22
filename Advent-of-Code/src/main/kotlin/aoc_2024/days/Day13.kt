@@ -12,12 +12,15 @@ class Day13 : Day(13) {
 
     override fun part2(input: List<String>): Any {
         return input.chunked(4)
-            .mapNotNull { it.toMachine()?.let { machine ->
-                machine.copy(
-                    prize = machine.prize.first + 10000000000000L to
-                            machine.prize.second + 10000000000000L
-                ).solve()
-            }}
+            .mapNotNull {
+                it.toMachine()?.let { machine ->
+                    machine.copy(
+                        prize =
+                            machine.prize.first + 10000000000000L to
+                                machine.prize.second + 10000000000000L,
+                    ).solve()
+                } 
+            }
             .sum()
             .toInt()
     }
@@ -25,7 +28,7 @@ class Day13 : Day(13) {
     private data class Machine(
         val buttonA: Pair<Long, Long>,
         val buttonB: Pair<Long, Long>,
-        val prize: Pair<Long, Long>
+        val prize: Pair<Long, Long>,
     ) {
         fun solve(maxPresses: Long = Long.MAX_VALUE): Long? {
             val (ax, ay) = buttonA
@@ -63,7 +66,7 @@ class Day13 : Day(13) {
         return Machine(
             buttonA = ax.toLong() to ay.toLong(),
             buttonB = bx.toLong() to by.toLong(),
-            prize = px.toLong() to py.toLong()
+            prize = px.toLong() to py.toLong(),
         )
     }
 }

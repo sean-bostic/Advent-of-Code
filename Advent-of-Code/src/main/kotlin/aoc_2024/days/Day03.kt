@@ -1,7 +1,7 @@
 package aoc_2024.days
 import core.Day
 
-class Day03 : Day(3){
+class Day03 : Day(3) {
     override fun part1(input: List<String>): Int {
         return input.joinToString("")
             .indices
@@ -20,17 +20,18 @@ private fun String.findAllMulInstructions(): Sequence<Int> =
     indices.asSequence()
         .mapNotNull { parseMulAt(it) }
 
-private fun String.findEnabledMulInstructions(): Sequence<Int> = sequence {
-    var enabled = true
+private fun String.findEnabledMulInstructions(): Sequence<Int> =
+    sequence {
+        var enabled = true
 
-    for (i in indices) {
-        when {
-            startsWith("do()", i) -> enabled = true
-            startsWith("don't()", i) -> enabled = false
-            enabled -> parseMulAt(i)?.let { yield(it) }
+        for (i in indices) {
+            when {
+                startsWith("do()", i) -> enabled = true
+                startsWith("don't()", i) -> enabled = false
+                enabled -> parseMulAt(i)?.let { yield(it) }
+            }
         }
     }
-}
 
 private fun String.parseMulAt(index: Int): Int? =
     drop(index)
@@ -42,7 +43,6 @@ private fun String.parseMulAt(index: Int): Int? =
         ?.let { (first, second) ->
             first.toIntOrNull()?.times(second.toIntOrNull() ?: return null)
         }
-
 
 private fun Int.parseMulAt(text: String): Int? =
     text.drop(this)

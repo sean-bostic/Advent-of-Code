@@ -1,6 +1,5 @@
 package aoc_2024.days
 
-
 import core.Day
 
 class Day15 : Day(15) {
@@ -31,16 +30,17 @@ class Day15 : Day(15) {
     private class Warehouse(
         var robot: Position,
         val boxes: MutableSet<Position>,
-        val walls: Set<Position>
+        val walls: Set<Position>,
     ) {
         fun executeMove(direction: Char) {
-            val delta = when (direction) {
-                '^' -> Position(0, -1)
-                'v' -> Position(0, 1)
-                '<' -> Position(-1, 0)
-                '>' -> Position(1, 0)
-                else -> return
-            }
+            val delta =
+                when (direction) {
+                    '^' -> Position(0, -1)
+                    'v' -> Position(0, 1)
+                    '<' -> Position(-1, 0)
+                    '>' -> Position(1, 0)
+                    else -> return
+                }
 
             val newRobotPos = robot + delta
 
@@ -56,7 +56,10 @@ class Day15 : Day(15) {
             }
         }
 
-        private fun canPushBoxes(startBox: Position, delta: Position): Boolean {
+        private fun canPushBoxes(
+            startBox: Position,
+            delta: Position,
+        ): Boolean {
             var current = startBox
 
             while (current in boxes) {
@@ -66,7 +69,10 @@ class Day15 : Day(15) {
             return current !in walls
         }
 
-        private fun pushBoxes(startBox: Position, delta: Position) {
+        private fun pushBoxes(
+            startBox: Position,
+            delta: Position,
+        ) {
             val boxesToMove = mutableListOf<Position>()
             var current = startBox
 
@@ -146,27 +152,29 @@ class Day15 : Day(15) {
     private class WideWarehouse(
         var robot: Position,
         val boxes: MutableSet<Position>,
-        val walls: Set<Position>
+        val walls: Set<Position>,
     ) {
         fun executeMove(direction: Char) {
-            val delta = when (direction) {
-                '^' -> Position(0, -1)
-                'v' -> Position(0, 1)
-                '<' -> Position(-1, 0)
-                '>' -> Position(1, 0)
-                else -> return
-            }
+            val delta =
+                when (direction) {
+                    '^' -> Position(0, -1)
+                    'v' -> Position(0, 1)
+                    '<' -> Position(-1, 0)
+                    '>' -> Position(1, 0)
+                    else -> return
+                }
 
             val newRobotPos = robot + delta
 
             if (newRobotPos in walls) return
 
-            val boxAtNewPos = when {
-                newRobotPos in boxes -> newRobotPos
-                Position(newRobotPos.x - 1, newRobotPos.y) in boxes ->
-                    Position(newRobotPos.x - 1, newRobotPos.y)
-                else -> null
-            }
+            val boxAtNewPos =
+                when {
+                    newRobotPos in boxes -> newRobotPos
+                    Position(newRobotPos.x - 1, newRobotPos.y) in boxes ->
+                        Position(newRobotPos.x - 1, newRobotPos.y)
+                    else -> null
+                }
 
             if (boxAtNewPos != null) {
                 if (direction == '<' || direction == '>') {
@@ -186,7 +194,10 @@ class Day15 : Day(15) {
             }
         }
 
-        private fun canPushBoxesHorizontal(startBox: Position, delta: Position): Boolean {
+        private fun canPushBoxesHorizontal(
+            startBox: Position,
+            delta: Position,
+        ): Boolean {
             if (delta.x > 0) {
                 var current = startBox
                 while (current in boxes) {
@@ -203,7 +214,10 @@ class Day15 : Day(15) {
             }
         }
 
-        private fun pushBoxesHorizontal(startBox: Position, delta: Position) {
+        private fun pushBoxesHorizontal(
+            startBox: Position,
+            delta: Position,
+        ) {
             val boxesToMove = mutableListOf<Position>()
 
             if (delta.x > 0) {
@@ -225,7 +239,10 @@ class Day15 : Day(15) {
             boxesToMove.forEach { box -> boxes.add(box + delta) }
         }
 
-        private fun findBoxesToPushVertical(startBox: Position, delta: Position): Set<Position>? {
+        private fun findBoxesToPushVertical(
+            startBox: Position,
+            delta: Position,
+        ): Set<Position>? {
             val result = mutableSetOf<Position>()
             val queue = ArrayDeque<Position>()
             queue.add(startBox)
@@ -250,11 +267,17 @@ class Day15 : Day(15) {
             return result
         }
 
-        private fun canPushBoxesVertical(boxesToPush: Set<Position>, delta: Position): Boolean {
+        private fun canPushBoxesVertical(
+            boxesToPush: Set<Position>,
+            delta: Position,
+        ): Boolean {
             return true
         }
 
-        private fun pushBoxesVertical(boxesToPush: Set<Position>, delta: Position) {
+        private fun pushBoxesVertical(
+            boxesToPush: Set<Position>,
+            delta: Position,
+        ) {
             boxesToPush.forEach { box -> boxes.remove(box) }
             boxesToPush.forEach { box -> boxes.add(box + delta) }
         }

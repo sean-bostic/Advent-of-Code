@@ -1,8 +1,8 @@
 package core
 
-
 abstract class Day(val dayNumber: Int) {
     abstract fun part1(input: List<String>): Any
+
     abstract fun part2(input: List<String>): Any
 
     fun loadInput(year: Int): List<String> {

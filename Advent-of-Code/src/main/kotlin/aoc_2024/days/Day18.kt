@@ -6,11 +6,12 @@ class Day18 : Day(18) {
     override fun part1(input: List<String>): Any {
         val bytes = parseBytes(input)
 
-        val (gridSize, numBytes) = if (bytes.size < 30) {
-            7 to 12
-        } else {
-            71 to 1024
-        }
+        val (gridSize, numBytes) =
+            if (bytes.size < 30) {
+                7 to 12
+            } else {
+                71 to 1024
+            }
 
         val corrupted = bytes.take(numBytes).toSet()
 
@@ -50,7 +51,10 @@ class Day18 : Day(18) {
         }
     }
 
-    private fun findShortestPath(gridSize: Int, corrupted: Set<Position>): Int? {
+    private fun findShortestPath(
+        gridSize: Int,
+        corrupted: Set<Position>,
+    ): Int? {
         val start = Position(0, 0)
         val end = Position(gridSize - 1, gridSize - 1)
 
@@ -60,12 +64,13 @@ class Day18 : Day(18) {
         queue.add(start to 0)
         visited.add(start)
 
-        val directions = listOf(
-            Position(0, -1),  // up
-            Position(0, 1),   // down
-            Position(-1, 0),  // left
-            Position(1, 0)    // right
-        )
+        val directions =
+            listOf(
+                Position(0, -1), // up
+                Position(0, 1), // down
+                Position(-1, 0), // left
+                Position(1, 0), // right
+            )
 
         while (queue.isNotEmpty()) {
             val (current, steps) = queue.removeFirst()

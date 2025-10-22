@@ -59,7 +59,10 @@ class Day22 : Day(22) {
         return result
     }
 
-    private fun mix(secret: Long, value: Long): Long {
+    private fun mix(
+        secret: Long,
+        value: Long,
+    ): Long {
         return secret xor value
     }
 

@@ -6,18 +6,19 @@ class Day14 : Day(14) {
     override fun part1(input: List<String>): Any {
         val robots = input.mapNotNull { it.toRobot() }
 
-
-        val (width, height) = if (robots.size < 20) {
-            11 to 7
-        } else {
-            101 to 103
-        }
+        val (width, height) =
+            if (robots.size < 20) {
+                11 to 7
+            } else {
+                101 to 103
+            }
 
         val seconds = 100
 
-        val finalPositions = robots.map { robot ->
-            robot.positionAfter(seconds, width, height)
-        }
+        val finalPositions =
+            robots.map { robot ->
+                robot.positionAfter(seconds, width, height)
+            }
 
         return calculateSafetyFactor(finalPositions, width, height)
     }
@@ -47,9 +48,13 @@ class Day14 : Day(14) {
 
     private data class Robot(
         val position: Pair<Int, Int>,
-        val velocity: Pair<Int, Int>
+        val velocity: Pair<Int, Int>,
     ) {
-        fun positionAfter(seconds: Int, width: Int, height: Int): Pair<Int, Int> {
+        fun positionAfter(
+            seconds: Int,
+            width: Int,
+            height: Int,
+        ): Pair<Int, Int> {
             val (px, py) = position
             val (vx, vy) = velocity
 
@@ -70,29 +75,30 @@ class Day14 : Day(14) {
 
         return Robot(
             position = px.toInt() to py.toInt(),
-            velocity = vx.toInt() to vy.toInt()
+            velocity = vx.toInt() to vy.toInt(),
         )
     }
 
     private fun calculateSafetyFactor(
         positions: List<Pair<Int, Int>>,
         width: Int,
-        height: Int
+        height: Int,
     ): Int {
         val midX = width / 2
         val midY = height / 2
 
-        val quadrants = positions
-            .filterNot { (x, y) -> x == midX || y == midY }
-            .groupBy { (x, y) ->
-                when {
-                    x < midX && y < midY -> 0
-                    x > midX && y < midY -> 1
-                    x < midX && y > midY -> 2
-                    else -> 3
+        val quadrants =
+            positions
+                .filterNot { (x, y) -> x == midX || y == midY }
+                .groupBy { (x, y) ->
+                    when {
+                        x < midX && y < midY -> 0
+                        x > midX && y < midY -> 1
+                        x < midX && y > midY -> 2
+                        else -> 3
+                    }
                 }
-            }
-            .mapValues { it.value.size }
+                .mapValues { it.value.size }
 
         return (0..3).fold(1) { acc, quadrant ->
             acc * (quadrants[quadrant] ?: 0)
@@ -100,7 +106,11 @@ class Day14 : Day(14) {
     }
 
     // For debugging
-    private fun visualizeGrid(positions: List<Pair<Int, Int>>, width: Int, height: Int): String {
+    private fun visualizeGrid(
+        positions: List<Pair<Int, Int>>,
+        width: Int,
+        height: Int,
+    ): String {
         val grid = Array(height) { CharArray(width) { '.' } }
         val positionCounts = positions.groupingBy { it }.eachCount()
 

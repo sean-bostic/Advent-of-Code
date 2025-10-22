@@ -49,12 +49,12 @@ class Day17 : Day(17) {
     private data class Registers(
         var a: Long,
         var b: Long,
-        var c: Long
+        var c: Long,
     )
 
     private class Computer(
         private val registers: Registers,
-        private val program: List<Int>
+        private val program: List<Int>,
     ) {
         private var ip = 0
         val output = mutableListOf<Int>()
@@ -68,7 +68,10 @@ class Day17 : Day(17) {
             }
         }
 
-        private fun executeInstruction(opcode: Int, operand: Int) {
+        private fun executeInstruction(
+            opcode: Int,
+            operand: Int,
+        ) {
             when (opcode) {
                 0 -> adv(operand)
                 1 -> bxl(operand)
@@ -81,13 +84,14 @@ class Day17 : Day(17) {
             }
         }
 
-        private fun getComboValue(operand: Int): Long = when (operand) {
-            in 0..3 -> operand.toLong()
-            4 -> registers.a
-            5 -> registers.b
-            6 -> registers.c
-            else -> throw IllegalArgumentException("Invalid combo operand: $operand")
-        }
+        private fun getComboValue(operand: Int): Long =
+            when (operand) {
+                in 0..3 -> operand.toLong()
+                4 -> registers.a
+                5 -> registers.b
+                6 -> registers.c
+                else -> throw IllegalArgumentException("Invalid combo operand: $operand")
+            }
 
         private fun adv(operand: Int) {
             val divisor = 2.0.pow(getComboValue(operand).toDouble()).toLong()
@@ -141,9 +145,10 @@ class Day17 : Day(17) {
         val registerB = input[1].substringAfter(": ").toLong()
         val registerC = input[2].substringAfter(": ").toLong()
 
-        val program = input[4].substringAfter(": ")
-            .split(",")
-            .map { it.toInt() }
+        val program =
+            input[4].substringAfter(": ")
+                .split(",")
+                .map { it.toInt() }
 
         return Registers(registerA, registerB, registerC) to program
     }
