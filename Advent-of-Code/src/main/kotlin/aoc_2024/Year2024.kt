@@ -25,6 +25,7 @@ object Year2024  {
         Day18(),
         Day19(),
         Day20(),
-        Day21()
+        Day21(),
+        Day22()
     )
 }
