@@ -161,7 +161,7 @@ private fun loadDayCode(
     dayNumber: Int,
 ): String? {
     val paddedDay = dayNumber.toString().padStart(2, '0')
-    val file = File("src/main/kotlin/aoc_$year/days/Day$paddedDay.kt")
+    val file = File("Advent-of-Code/src/main/kotlin/aoc_$year/days/Day$paddedDay.kt")
 
     return if (file.exists()) {
         file.readText()
