@@ -5,11 +5,13 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import aoc_2024.Year2024
+import aoc_2025.Year2025
 import core.YearRegistry
 
 fun main() =
     application {
         YearRegistry.register(2024, Year2024.getAllDays())
+        YearRegistry.register(2025, Year2025.getAllDays())
 
         Window(
             onCloseRequest = ::exitApplication,
